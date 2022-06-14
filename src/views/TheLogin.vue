@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-3 mx-auto border rounded-1 px-3 pt-3 mt-5">
-    <h4 class="mt-2 mx-auto">Build Generation</h4>
+    <h4 class="mt-2 mx-auto">Rensys Engineering</h4>
 
     <!-- loign form -->
     <form v-if="!isForgotSelected" class="pt-1" @submit.prevent="login">
@@ -214,7 +214,7 @@ export default {
             localStorage.setItem("tokenB", response.data.access_token);
             localStorage.setItem("user", JSON.stringify(user));
 
-            let toPath = this.$router.to || "/coordinator";
+            let toPath = this.$router.to || "/";
             this.$router.push(toPath);
           } else {
             throw "faild" + response.status;
@@ -231,6 +231,6 @@ export default {
 </script>
 <style scoped>
 .btn {
-  background-color: #2f4587;
+  background-color: #ff7e00;
 }
 </style>
