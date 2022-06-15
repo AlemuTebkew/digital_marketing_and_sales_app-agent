@@ -7,6 +7,9 @@ import store from '@/store'
     path:'/',
     name:'AgentPortal',
     component:AgentPortal,
+    meta:{
+      authRequired:true,
+    },
     children:[
       {
     path:'/',
@@ -54,11 +57,10 @@ import store from '@/store'
     name: 'TheLogin',
     component: () => import(/* webpackChunkName: "login" */ '../views/TheLogin.vue'),
     beforeEnter: (to, from, next) => {
-      if (store.getters.isAuthenticated) {
-         // localStorage.getItem('token')
-          next(from.path)
-      } else
-          next()
+     if(store.getters.isAuthenticated)
+      return  next(from.path)
+      next()
+    
   },
 
   },
@@ -69,10 +71,12 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if (!localStorage.getItem("tokenn") ) {
-    return next({ name: "TheLogin"});
-  }
-  return next();
-});
+
+router.beforeEach((to, from,next)=>{
+  if (to.matched.some(record => record.meta.authRequired) && !localStorage.getItem('token')) {
+    return next({name:'TheLogin'})
+}
+     else
+      next()
+})
 export default router
