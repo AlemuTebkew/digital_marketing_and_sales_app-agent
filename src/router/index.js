@@ -29,6 +29,13 @@ import  TheDashboard from '../views/TheDashboard.vue'
     name: 'TheSetting',
     component: () => import(/* webpackChunkName: "setting" */ '../views/TheSetting.vue')
   },
+
+  {
+    path: '/product-detail/:id',
+    name: 'ProductDetail',
+    component: () => import(/* webpackChunkName: "setting" */ '../views/ProductDetail.vue')
+  },
+  
  ]
 
 const router = createRouter({

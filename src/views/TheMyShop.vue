@@ -44,8 +44,8 @@
 <hr class="mt-0 "/>
 <div class="d-flex justify-content-between p-2 selection-bar">
    <div class="d-flex  border rounded">
-      <input type="text"  class="form-control search-input" placeholder="Search" aria-label="search" aria-describedby="basic-addon2"/>
-        <span role="button"  class="input-group-text search rounded-0" id="basic-addon2">
+      <input type="text" v-model="searchQuery" class="form-control search-input" placeholder="Search" aria-label="search" aria-describedby="basic-addon2"/>
+        <span role="button"  class="input-group-text search rounded-0" id="basic-addon2" @click="searchProduct()">
             <i class="fas fa-search"></i>
         </span>           
    </div>
@@ -66,10 +66,12 @@
         <select
           class="form-select"
           aria-label="selectFilterRegion"
+          v-model.number="filteredCat"
+          @change="fetchProductByCategory()"
         >
-          <option value=" ">Filter</option>
-          <option>
-             Category
+          <option value="">Filter</option>
+          <option v-for="cat in categories" :key="cat.id" :value="cat.id" >
+             {{cat.title}} 
           </option>
         </select>
       </div>
@@ -118,7 +120,7 @@
         <td>{{product.isActive ? 'In Stock' : 'Out Stock'}}</td>
         <td
         >
-          <span class="me-2" @click="$router.push({name:'ProductDetail'})" role="button"
+          <span class="me-2" @click="$router.push({name:'ProductDetail',params:{id:product.id}})" role="button"
             ><i class="far fa-eye"></i
           ></span>
         
@@ -136,13 +138,17 @@ export default {
   
   data(){
      return {
-          products:''
+          products:'',
+          categories:'',
+          filteredCat:'',
+          searchQuery:''
      }
   },
   methods:{
 
 
     async fetchProducts(query){
+     // alert(query)
        try {
         this.$store.commit("setIsLoading", true);
         const response = await apiClient.get(
@@ -150,7 +156,7 @@ export default {
         );
         if (response.status === 200) {
            this.products=response.data.data
-           console.log(this.products)
+           console.log("product="+this.products)
         }
       } catch (e) {
         //
@@ -159,11 +165,30 @@ export default {
       }
    },
 
-       async filterProducts(){
+   async fetchProductByCategory(){
+     // alert(query)
        try {
         this.$store.commit("setIsLoading", true);
         const response = await apiClient.get(
-          '/api/products'
+          `/api/categories/${this.filteredCat}`
+        );
+        if (response.status === 200) {
+           this.products=response.data.data
+           console.log("product="+this.products)
+        }
+      } catch (e) {
+        //
+      } finally {
+        this.$store.commit("setIsLoading", false);
+      }
+   },
+
+       async searchProduct(){
+       // alert(this.searchQuery)
+       try {
+        this.$store.commit("setIsLoading", true);
+        const response = await apiClient.get(
+          `/api/search?search=${this.searchQuery}`
         );
         if (response.status === 200) {
            this.products=response.data.data
@@ -175,10 +200,28 @@ export default {
         this.$store.commit("setIsLoading", false);
       }
    },
+       async fetchCategories(){
+       try {
+        this.$store.commit("setIsLoading", true);
+        const response = await apiClient.get(
+          '/api/categories'
+        );
+        if (response.status === 200) {
+           this.categories=response.data
+           console.log("categories"+this.categories)
+        }
+      } catch (e) {
+        //
+      } finally {
+        this.$store.commit("setIsLoading", false);
+      }
+   },
+
     },
 
     mounted(){
      this.fetchProducts()
+     this.fetchCategories()
 
     }
     
