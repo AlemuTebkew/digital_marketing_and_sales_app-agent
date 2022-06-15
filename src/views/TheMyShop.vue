@@ -28,13 +28,13 @@
    </li>
 
     <li class="nav-item">
-   <a  class="nav-link text-black " role="button">
+   <a  class="nav-link text-black " role="button" @click="fetchProducts('inactive')">
         In Active
    </a>  
    </li>
 
     <li class="nav-item">
-   <a  class="nav-link text-black " role="button">
+   <a  class="nav-link text-black " role="button" @click="fetchProducts('pending')">
          pending
    </a>  
    </li>
@@ -146,7 +146,7 @@ export default {
        try {
         this.$store.commit("setIsLoading", true);
         const response = await apiClient.get(
-          '/api/products'+"?query="+query
+          '/api/products'+"?filter="+query
         );
         if (response.status === 200) {
            this.products=response.data.data

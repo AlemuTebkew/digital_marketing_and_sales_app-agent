@@ -1,4 +1,7 @@
 <template>
+<div>
+  
+</div>
   <the-header></the-header>
   <div class="d-flex">
     <div class="sidebar shadow">
@@ -18,6 +21,8 @@
       <img src="./assets/loader.gif" alt="slow connection" />
     </div>
   </div>
+
+  <!-- <the-login> -->
 </template>
 
 <script setup>
