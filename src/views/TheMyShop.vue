@@ -117,7 +117,7 @@
         <td>{{product.category?.title}}</td>
         <td>{{product.price}}</td>
         <td>{{product.qty}}</td>
-        <td>{{product.isActive ? 'In Stock' : 'Out Stock'}}</td>
+        <td>product.isActive ? 'In Stock' : 'Out Stock'</td>
         <td
         >
           <span class="me-2" @click="$router.push({name:'ProductDetail',params:{id:product.id}})" role="button"

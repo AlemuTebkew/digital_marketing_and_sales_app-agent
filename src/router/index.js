@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import  TheDashboard from '../views/TheDashboard.vue'
 import AgentPortal from '../views/AgentPort.vue'
-import store from '@/store'
+// import store from '@/store'
  const routes=[
   {
     path:'/',
@@ -48,22 +48,36 @@ import store from '@/store'
     ],
    },   
 
-  //  {
-  //  //  path: "/:notFound(.*)*", redirect: "/" 
-  //  },
+   {
+    path: "/:notFound(.*)*", redirect: "/" 
+   },
 
   {
     path: '/login',
     name: 'TheLogin',
     component: () => import(/* webpackChunkName: "login" */ '../views/TheLogin.vue'),
     beforeEnter: (to, from, next) => {
-     if(store.getters.isAuthenticated)
-      return  next(from.path)
+     if(localStorage.getItem('tokenB'))
+      // alert('hhhh')
+      return  next()
+      else{
       next()
-    
+      }
   },
 
   },
+  {
+    path: '/reset-password/:token',
+    props:true,
+    name: 'ResetPassword',
+    component: () => import(/* webpackChunkName: "login" */ '../views/ResetPassword.vue'), 
+  },
+
+  // {
+  //   path: '/verify',
+  //   name: 'VerificationCode',
+  //   component: () => import(/* webpackChunkName: "login" */ '../views/VerificationCode.vue'), 
+  // }
  ]
 
 const router = createRouter({
@@ -73,7 +87,7 @@ const router = createRouter({
 
 
 router.beforeEach((to, from,next)=>{
-  if (to.matched.some(record => record.meta.authRequired) && !localStorage.getItem('token')) {
+  if (to.matched.some(record => record.meta.authRequired) && !localStorage.getItem('tokenB')) {
     return next({name:'TheLogin'})
 }
      else

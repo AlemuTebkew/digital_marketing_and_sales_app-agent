@@ -181,6 +181,8 @@ export default {
             email: this.emailForForgot,
           });
           if (response.status == 200) {
+           // this.$router.push({name:'VerificationCode'});
+
             this.forgotSuccessMessage =
               "We have sent verfication link. Check your inbox please!";
           }
