@@ -45,6 +45,24 @@ import AgentPortal from '../views/AgentPort.vue'
     component: () => import(/* webpackChunkName: "setting" */ '../views/ProductDetail.vue')
   },
   
+  // {
+  //   path: '/permissions',
+  //   name: 'ThePermission',
+  //   component: () => import(/* webpackChunkName: "login" */ '../views/ThePermission.vue'), 
+  // },
+  {
+    path: '/roles',
+    name: 'TheRole',
+    component: () => import(/* webpackChunkName: "login" */ '../views/TheRole.vue'), 
+  },
+
+  {
+    path: '/roles/:id',
+    name: 'RolePermission',
+    component: () => import(/* webpackChunkName: "login" */ '../views/ThePermission.vue'), 
+  },
+
+
     ],
    },   
 
@@ -72,6 +90,8 @@ import AgentPortal from '../views/AgentPort.vue'
     name: 'ResetPassword',
     component: () => import(/* webpackChunkName: "login" */ '../views/ResetPassword.vue'), 
   },
+
+
 
   // {
   //   path: '/verify',

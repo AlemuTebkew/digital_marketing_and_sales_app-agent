@@ -8,6 +8,7 @@
       <!-- <TheSidebar label="Sales" routeName="TheSales" /> -->
       <TheSidebar label="Reports" routeName="TheReport" />
       <TheSidebar label="Setting" routeName="TheSetting" />
+      <TheSidebar label="Role" routeName="TheRole" />
     </ul>
   </nav>
 </template>
