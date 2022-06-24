@@ -1,10 +1,13 @@
 <template>
-<div class="mt-3">
+<div class="m-5 border p-5">
       <div class="d-flex justify-content-between">
          <h3 class=""> Roles</h3>
          
-         <button class="btn btn-warning" @click="f">Add Role</button>
-
+         <!-- <button class="btn btn-warning" @click="f">Add Role</button> -->
+   
+   <button class="btn btn-warning" @click="getModal" >
+     Add Role
+   </button>
       </div>
    
        <hr/>
@@ -17,52 +20,42 @@
             </h3>
          <div>
 
-          <button class="btn btn-primary" @click="$router.push({name:'RolePermission',params:{id:role.id}})">Permissions</button>
-
+          <span class="me-2" @click="$router.push({name:'RolePermission',params:{id:role.id}})" role="button"><i class="far fa-eye"></i></span>
+  
+        
          </div>
+     
          </div>
 
 </div>
+<add-modal id="roleModal"/>
   
 
 </template>
 
 <script>
+import {Modal} from 'bootstrap'
+import AddModal from '../views/AddRole.vue'
 import ApiClient from '../resources/baseUrl'
  export default{
    data(){
      return{
-      roles:'',
+      roleModal:''
      }
    },
 
+   components:{
+      AddModal,
+   },
    methods:{
 
-       async getAllRoles(){
-
-         try {
-               const res=await ApiClient.get('api/roles');
-
-               if (res.status === 200) {
-                  this.roles=res.data
-                  console.log('allroles=='+res.data)
-               }
-
-         } catch (error) {
-            console.log('jj')
-         }finally{
-            console.log('jj')
-
-         }
-       },
-  
     async getRolePermissions(){
 
          try {
                const res=await ApiClient.get('api/roles/');
 
                if (res.status === 200) {
-                  this.roles=res.data
+                 // this.roles=res.data
                }
 
          } catch (error) {
@@ -72,10 +65,21 @@ import ApiClient from '../resources/baseUrl'
 
          }
        },
+       getModal(){
+         this.roleModal.show()
+       }
    },
      mounted(){
-      this.getAllRoles();
-   } 
+     // this.getAllRoles();
+      this.roleModal=new Modal(document.getElementById('roleModal'))
+
+   } ,
+  
+   computed:{
+      roles(){
+         return this.$store.getters.roles
+      }
+   }
   
  }
 </script>

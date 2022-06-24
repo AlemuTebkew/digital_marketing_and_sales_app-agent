@@ -1,7 +1,14 @@
 <template>
-<div class="my-6">
-   <h3 class="my-10"> Permissions</h3>
-   <div class="row my-10">
+<div class="m-5">
+   
+     <div class="d-flex">
+            <input class="form-control w-50 mx-3" type="text" v-model="role.name"/>
+            <button type="button"  class="form-control btn btn-sm btn-warning savechange" @click="updateRole">SaveChange</button>
+
+      </div>
+      
+   <h3 class="mt-2"> Permissions</h3>
+   <div class="row mt-2">
 
       <form @submit.prevent="assignPermissions()">
        <div class=""  >
@@ -38,6 +45,9 @@ import ApiClient from '../resources/baseUrl'
       rolePermissions:[],
       sendData:{
          sendpermissions:[],
+      },
+      role:{
+       
       },
       checkValues:[],
      }
@@ -102,16 +112,53 @@ import ApiClient from '../resources/baseUrl'
 
          }
        },
+       filterRole(){
+         this.roles.forEach(role=>{
+            console.log('filter',this.$route.params.id)
+            if(role.id *1 === this.$route.params.id *1){
+            this.role=role
+            console.log('filter',this.role)
+            }
+         })
+       },
+
+       async updateRole(){
+
+            try {
+            const res=await ApiClient.post('api/roles',{name:this.role.name})
+
+            if (res.status === 201) {
+                console.log('saved')
+                this.successMessage='Role Added Successfully'
+                this.roleModal.hide()
+            }
+        
+        } catch (error) {
+            this.successMessage='error while saving'
+         }
+         }
   
    },
      mounted(){
       this.getRolePermissions();
       this.getAllPermissions();
-   } 
+   } ,
+    computed:{
+      roles(){
+         return this.$store.getters.roles
+      }
+   },
+   created(){
+      this.filterRole();
+
+   }
   
  }
 </script>
 
 <style>
-
+.savechange{
+   /* float: right; */
+   width: 100px;
+}
 </style>

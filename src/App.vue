@@ -1,7 +1,13 @@
 <template>
   <router-view/>
 </template>
-
+<script>
+export default {
+   created(){
+      this.$store.dispatch('getAllRoles');
+   },
+}
+</script>
 <style>
 .route-loading {
   background-color: rgba(0, 0, 0, 0.5);

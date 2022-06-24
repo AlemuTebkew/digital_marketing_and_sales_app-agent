@@ -62,7 +62,11 @@ import AgentPortal from '../views/AgentPort.vue'
     component: () => import(/* webpackChunkName: "login" */ '../views/ThePermission.vue'), 
   },
 
-
+  {
+    path: '/add-role',
+    name: 'AddRole',
+    component: () => import(/* webpackChunkName: "login" */ '../views/AddRole.vue'), 
+  },
     ],
    },   
 
